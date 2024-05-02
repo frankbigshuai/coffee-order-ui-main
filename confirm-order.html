@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm Order</title>
+    <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="navbar.css">
+
+</head>
+<body style="position: relative; background: #F8EACA">
+  <ul class="topnav">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="order-status.html">Order Status</a></li>
+    <li class="right"><a href="login.html">Login</a></li>
+  </ul>
+  <div class ="orderText" style="left: 411px; top: 335px; position: absolute; color: black; font-size: 32px; font-family: Inter; font-weight: 700; word-wrap: break-word"></div>
+
+</body>
+<script src="register.js"></script>
+<script>
+  var coffee = getCoffee();
+  document.querySelector('.orderText').innerText = `You have ordered a ${coffee.beverage} with ${coffee.condiments.join(', ')}`;
+  function getCoffee() {
+      var coffeeString = localStorage.getItem("coffee");
+      return JSON.parse(coffeeString);
+  }
+</script>
+
+</html>

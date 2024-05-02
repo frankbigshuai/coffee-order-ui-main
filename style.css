@@ -1,0 +1,11 @@
+
+.editButton {
+    width: 278px; height: 43px; padding-left: 30px; padding-right: 30px; padding-top: 10px; padding-bottom: 10px; left: 15px;position: absolute; opacity: 0.80; background: #CDB38C; border-radius: 8px; justify-content: center; align-items: center; gap: 10px; display: inline-flex; color: black; font-size: 32px; font-family: Inter; font-weight: 700; word-wrap: break-word
+}
+.Button {
+    width: 223px; height: 181px; padding-left: 30px; padding-right: 30px; padding-top: 10px; padding-bottom: 10px; left: 569px; position: absolute; opacity: 0.80; background: #CDB38C; border-radius: 8px; justify-content: center; align-items: center; gap: 10px; display: inline-flex; color: black; font-size: 32px; font-family: Inter; font-weight: 700; word-wrap: break-word
+}
+.editBeverageButton{
+    width: 278px; height: 43px; padding-left: 30px; padding-right: 30px; padding-top: 10px; padding-bottom: 10px; left: 15px; position: absolute; opacity: 0.80; background: #CDB38C; border-radius: 8px; justify-content: center; align-items: center; gap: 10px; display: inline-flex; color: black; font-size: 32px; font-family: Inter; font-weight: 700; word-wrap: break-word
+}
+.body{position: relative; background: #F8EACA}

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Condiment</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="navbar.css">
+</head>
+<body style=" position: relative; background: #F8EACA">
+<div class="Condiment" style="width: 1440px; height: 1024px; position: relative; background: #F8EACA">
+  <ul class="topnav">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="order-status.html">Order Status</a></li>
+    <li class="right"><a href="login.html">Login</a></li>
+  </ul>
+  <div class="Frame9" style="width: 309px; height: 666px; left: 1058px; top: 206px; position: absolute; border-radius: 10px; overflow: hidden; border: 5px black solid; backdrop-filter: blur(4px)">
+    <div class="MyOrder" style="left: 81px; top: 20px; position: absolute; color: #F99999; font-size: 32px; font-family: Inter; font-weight: 700; word-wrap: break-word">My Order</div>
+    <button onclick="window.location.href = 'beverage.html'" class="editBeverageButton" style="left: 15px; top: 92px;">
+      Selected Beverage
+    </button>
+    <button class="editButton" style="left: 15px; top: 156px;">
+      condiment 1
+    </button>
+    <button class="editButton" style="left: 15px; top: 220px; ">
+      condiment 2
+    </button>
+    <button class="editButton" style="left: 15px; top: 284px;">
+      condiment 3
+    </button>
+    <button class="editButton" style="left: 15px; top: 348px;">
+      condiment 4
+    </button>
+    <button class="editButton" style="left: 15px; top: 412px;">
+      condiment 5
+    </button>
+    <button class="editButton" style="left: 15px; top: 476px;">
+      condiment 6
+    </button>
+    <button class="editButton" style="left: 15px; top: 540px;">
+      condiment 7
+    </button>
+    <button onclick="confirmOrder()" class="editBeverageButton" style="left: 12px; top: 604px">
+      Confirm Order
+    </button>
+  </div>
+  <div class="AddTheCondiments" style="left: 396px; top: 285px; position: absolute; color: black; font-size: 32px; font-family: Inter; font-weight: 700; word-wrap: break-word">Add the condiments</div>
+  <button class="Button" onclick="check()" style="left: 306px; top: 369px;">
+    Milk
+  </button>
+  <button class="Button" onclick="check()" style="left: 306px; top: 596px;">
+    Soy
+  </button>
+  <button class="Button" onclick="check()" style="left: 569px; top: 369px;">
+    Mocha
+  </button>
+  <button class="Button" onclick="check()" style="left: 569px; top: 596px;">
+    Whip
+  </button>
+</div>
+</body>
+<script src="register.js"></script>
+<script>
+  const url = configuration.host()
+  var coffee = getCoffee();
+  var selectedBeverageLink = document.querySelector('.editBeverageButton');
+  selectedBeverageLink.innerText = coffee.beverage;
+  updateEditButtonsVisibility();
+  function check(){
+    var thebutton = event.target;
+    coffee.condiments.push(thebutton.innerText);
+    setCoffee(coffee);
+    if (coffee.condiments.length >= 7) {
+      document.querySelectorAll('.Button').forEach(button => {
+        button.disabled = true;
+        button.classList.add('disabled');
+      });
+    }
+    updateEditButtonsVisibility();
+  }
+
+  function uncheck(){
+    var coffee = getCoffee();
+    var index = coffee.condiments.indexOf(this.innerText);
+    if (index > -1) {
+      coffee.condiments.splice(index, 1);
+    }
+    setCoffee(coffee);
+    updateEditButtonsVisibility();
+    document.querySelectorAll('.Button').forEach(button => {
+      button.disabled = false;
+      button.classList.remove('disabled');
+    });
+  }
+  function updateEditButtonsVisibility() {
+    coffee = getCoffee();
+    document.querySelectorAll('.editButton').forEach((button, index) => {
+      if (index < coffee.condiments.length) {
+        button.style.display = "flex";
+        button.innerText = coffee.condiments[index];
+        button.onclick = uncheck;
+      } else {
+        button.style.display = "none";
+      }
+    });
+  }
+  function setCoffee(coffee) {
+    var coffeeString = JSON.stringify(coffee);
+    localStorage.setItem("coffee", coffeeString);
+  }
+  function getCoffee() {
+    var coffeeString = localStorage.getItem("coffee");
+    return JSON.parse(coffeeString);
+  }
+
+  async function confirmOrder() {
+    const recipe = await fetch(url + '/orders', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${configuration.token()}`
+      },
+      body: JSON.stringify(coffee),
+    })
+            .then(response => {
+              if (response.ok) {
+                return response.json();
+              }
+              throw new Error('Network response was not ok.');
+            })
+            .then(data => {
+              alert('Order successfully added.');
+              console.log(data);
+            })
+            .catch(error => {
+              console.error('There was a problem with the fetch operation:', error);
+              alert('Failed to add order.');
+            });
+    window.location.href = 'confirm-order.html';
+  }
+</script>
+</html>
